@@ -25,7 +25,9 @@ class Network {
   }
 
 }
-
+function returnFunction(devices: any) {
+  return devices;
+}
 const monitor = new Network();
 monitor.findDevices()
   .then((deviceList:any) => {
@@ -33,5 +35,6 @@ monitor.findDevices()
     //console.log(deviceList)
     // This is the property deviceList of Network
     let devices:any = monitor.deviceList;
-    console.log(devices);
+    console.log(returnFunction(devices));
   });
+
