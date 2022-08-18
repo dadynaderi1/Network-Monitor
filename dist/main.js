@@ -24,11 +24,12 @@ class Network {
         });
     }
 }
-let monitor = new Network();
+const monitor = new Network();
 monitor.findDevices()
     .then((deviceList) => {
     // This is the return value of the promise
-    console.log(deviceList);
+    //console.log(deviceList)
     // This is the property deviceList of Network
-    console.log(monitor.deviceList);
+    let devices = monitor.deviceList;
+    console.log(devices);
 });
