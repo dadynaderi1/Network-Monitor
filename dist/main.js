@@ -24,9 +24,11 @@ class Network {
         });
     }
 }
-async function run() {
-    const monitor = new Network();
-    let data = await monitor.findDevices();
-    console.log(data);
-}
-run();
+let monitor = new Network();
+monitor.findDevices()
+    .then((deviceList) => {
+    // This is the return value of the promise
+    console.log(deviceList);
+    // This is the property deviceList of Network
+    console.log(monitor.deviceList);
+});
