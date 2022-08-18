@@ -2,11 +2,10 @@
 const net = require('net');
 const find = require('local-devices');
 class Network {
-    constructor(hostname, port, timeout) {
+    constructor() {
+        this.hostname = "";
         this.port = 80;
-        this.hostname = hostname;
-        this.port = port;
-        this.timeout = timeout;
+        this.deviceList = [];
     }
     connect() {
         if (net.isIPv4(this.hostname)) {
@@ -15,15 +14,19 @@ class Network {
         }
     }
     findDevices() {
-        var deviceList = [];
-        find().then((devices) => {
-            devices.forEach((element) => {
-                // console.log(`name: ${element.name}  ip:${element.ip}  mac: ${element.mac}`);
-                deviceList.push(element);
-                console.log(deviceList);
-            });
+        var boom = [];
+        // Return the promise, so the caller can "await" it
+        return find().then((devices) => {
+            // Spread devices, otherwise it will push the array instead of the values
+            this.deviceList.push(...devices);
+            // Promise return value
+            return this.deviceList;
         });
     }
 }
-const boom = new Network('8.8.8.8', 80, 1400);
-boom.findDevices();
+async function run() {
+    const monitor = new Network();
+    let data = await monitor.findDevices();
+    console.log(data);
+}
+run();
