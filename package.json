@@ -12,6 +12,7 @@
   "devDependencies": {
     "@tsconfig/node16": "^1.0.3",
     "@types/node": "^18.7.6",
+    "local-devices": "^4.0.0",
     "typescript": "^4.7.4"
   }
 }

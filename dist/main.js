@@ -1,4 +1,6 @@
 "use strict";
+const net = require('net');
+const find = require('local-devices');
 class Network {
     constructor(hostname, port, timeout) {
         this.port = 80;
@@ -6,26 +8,22 @@ class Network {
         this.port = port;
         this.timeout = timeout;
     }
-    hostAddressValidator() {
-        const reg = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/;
-        if (!reg.test(this.hostname)) {
-            throw new Error("host address is invalid");
-        }
-        else if (this.hostname === undefined) {
-            throw new Error("host address is required");
-        }
-        else if (typeof this.hostname !== "string") {
-            throw new TypeError("host address type must be string");
-        }
-        else {
-            return true;
+    connect() {
+        if (net.isIPv4(this.hostname)) {
+            var connection = net.createConnection({ port: this.port, host: this.hostname });
+            console.log(connection);
         }
     }
-    connect() {
-        if (this.hostAddressValidator()) {
-            console.log("It's okay bro!");
-        }
+    findDevices() {
+        var deviceList = [];
+        find().then((devices) => {
+            devices.forEach((element) => {
+                // console.log(`name: ${element.name}  ip:${element.ip}  mac: ${element.mac}`);
+                deviceList.push(element);
+                console.log(deviceList);
+            });
+        });
     }
 }
-const net = new Network('192.168.1.1', 80, 1000);
-net.connect();
+const boom = new Network('8.8.8.8', 80, 1400);
+boom.findDevices();
